@@ -17,6 +17,17 @@ class ApiService {
     return users;
   }
 
+  Future<List<PlaceSearch>> getAutocomplete(String search) async {
+    var url =
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=$key';
+    var response = await http.get(Uri.parse(url));
+    var json = jsonDecode(response.body);
+    var jsonResults = json['predictions'] as List;
+    return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
+  }
+
+
+
   Future<String> getPlaceId(String input) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=$input&inputtype=textquery&key=$key';

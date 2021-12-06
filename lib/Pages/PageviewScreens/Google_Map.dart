@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:isloo_tech_task/application_bloc/Application_Bloc.dart';
 import 'package:isloo_tech_task/module/ApiResponce.dart';
 import 'package:isloo_tech_task/widgets/Custom_textfield.dart';
 import 'package:isloo_tech_task/widgets/elevatedbutton.dart';
@@ -20,6 +21,8 @@ class _GooglemapState extends State<Googlemap> {
   TextEditingController _destinationController = TextEditingController();
   Set<Marker> _markers = Set<Marker>();
   Set<Polyline> _polylines = Set<Polyline>();
+
+  final applicationbloc = ApplicationBloc();
 
   int polylineIdcountr = 1;
   @override
@@ -63,7 +66,8 @@ class _GooglemapState extends State<Googlemap> {
           padding: const EdgeInsets.only(left: 10),
           child: Icon(
             Icons.menu_rounded,
-            color: Colors.amber,size: 30,
+            color: Colors.amber,
+            size: 30,
           ),
         ),
         actions: [
@@ -73,13 +77,13 @@ class _GooglemapState extends State<Googlemap> {
           ),
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: [
           SizedBox(
-            height: 5,
+            height: 25,
           ),
-          Text("Location", style: TextStyle(fontWeight: FontWeight.bold)),
+          Center(
+            child: Text("Location", style: TextStyle(fontWeight: FontWeight.bold))),
           Padding(
             padding: const EdgeInsets.only(
                 top: 10.0, right: 20.0, left: 20.0, bottom: 10.0),
@@ -115,15 +119,11 @@ class _GooglemapState extends State<Googlemap> {
                         CustomTextfield(
                           conttroller: _searchcontroller,
                           data: IconButton(
-                            onPressed: () async {
-                               var direction = await ApiService().getDirection(
-                        _originController.text, _destinationController.text);
-                                          _goToPlace(
-                        direction['start_location']['lat'],
-                        direction['start_location']['lng']
-                        );
-                                        }, icon: Icon(Icons.record_voice_over,)
-                                        ),
+                              onPressed: ()  {
+                              },
+                              icon: Icon(
+                                Icons.record_voice_over,
+                              )),
                           hinttext: 'Search By Place',
                           width: 200.0,
                         ),
@@ -154,9 +154,15 @@ class _GooglemapState extends State<Googlemap> {
                         CustomTextfield(
                           conttroller: _originController,
                           data: IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              var direction = await ApiService().getDirection(
+                                  _originController.text,
+                                  _destinationController.text);
+                              _goToPlace(direction['start_location']['lat'],
+                                  direction['start_location']['lng']);
+                            },
                             icon: Icon(Icons.location_city),
-                            ),
+                          ),
                           hinttext: 'Pick Up Location',
                         ),
                         SizedBox(
@@ -165,9 +171,15 @@ class _GooglemapState extends State<Googlemap> {
                         CustomTextfield(
                           conttroller: _destinationController,
                           data: IconButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              var direction = await ApiService().getDirection(
+                                  _originController.text,
+                                  _destinationController.text);
+                              _goToPlace(direction['start_location']['lat'],
+                                  direction['start_location']['lng']);
+                            },
                             icon: Icon(Icons.pin_drop),
-                            ),
+                          ),
                           hinttext: 'Drop Off Location',
                         ),
                         SizedBox(
@@ -180,15 +192,13 @@ class _GooglemapState extends State<Googlemap> {
               ),
             ),
           ),
-          CustomElevatedbutton('Proceed', 130.0)
+          Center(child: CustomElevatedbutton('Proceed', 130.0))
         ],
       ),
     );
   }
 
-  Future<void> _goToPlace(
-      double lat,
-      double lng) async {
+  Future<void> _goToPlace(double lat, double lng) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(target: LatLng(lat, lng), zoom: 14),
