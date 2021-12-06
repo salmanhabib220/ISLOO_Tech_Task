@@ -38,7 +38,7 @@ class _CustomListviewbuilderState extends State<CustomListviewbuilder> {
                       itemBuilder: (context, i) {
                         return Container(
                           margin: EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 20),
+                              vertical: 6, horizontal: 20),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -68,7 +68,7 @@ class _CustomListviewbuilderState extends State<CustomListviewbuilder> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  height: 10,
+                                  height: 2,
                                 ),
                                 Text(
                                   snapshot.data[i].price.toString() + ' Ton',
@@ -77,8 +77,8 @@ class _CustomListviewbuilderState extends State<CustomListviewbuilder> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 10),
-                                CustomElevatedbutton('Add to Job', 120.0),
+                                //SizedBox(height:5),
+                                CustomElevatedbutton('Add to Job', 110.0),
                               ],
                             ),
                             trailing: Icon(

@@ -155,7 +155,7 @@ class _GooglemapState extends State<Googlemap> {
                           conttroller: _originController,
                           data: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.record_voice_over)
+                            icon: Icon(Icons.location_city),
                             ),
                           hinttext: 'Pick Up Location',
                         ),
@@ -166,7 +166,7 @@ class _GooglemapState extends State<Googlemap> {
                           conttroller: _destinationController,
                           data: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.record_voice_over)
+                            icon: Icon(Icons.pin_drop),
                             ),
                           hinttext: 'Drop Off Location',
                         ),
